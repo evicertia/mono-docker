@@ -1,6 +1,8 @@
 ARG MONO_DOCKER_TAG=latest
 FROM evicertia/mono:${MONO_DOCKER_TAG}
 
+WORKDIR /
+
 ENV DOCKERIZE_VERSION v0.6.1
 
 RUN yum -y install mono-basic \
