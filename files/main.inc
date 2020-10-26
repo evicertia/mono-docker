@@ -85,6 +85,25 @@ load_mono_certs_from()
     fi
 }
 
+
+get_config_files()
+{
+    local configdir=$1
+    local basedir=$2
+
+    [ -d "$configdir" ] || return 0
+    if find "$configdir" -mindepth 1 -name "*.config" -quit;
+    then \
+        echo "loading configuration files from config volume" >&2
+        for file in $(find "$configdir" -mindepth 1 -name "*.config" -execdir echo {} ';')
+        do \
+            echo "Importing $file"
+            [ -f "$basedir/$file" ] && rm -f "$basedir/$file"
+            ln -s "$configdir/$file" "$basedir/$file"
+        done
+    fi
+}
+
 which xmlstarlet || die 255 "Missing xmlstartlet binary."
 
 # vim: ai ts=4 sw=4 noet sts=4 ft=sh
