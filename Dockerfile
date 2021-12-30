@@ -1,11 +1,13 @@
 ARG CENTOS_VERSION=7
-ARG MONO_VERSION=5.18.1.28-7.1.nw.el${CENTOS_VERSION}
+ARG MONO_VERSION=5.18.1.28-14.1.nw.el${CENTOS_VERSION}
 ARG GTKSHARP_VERSION=2.12.26-2.22.nw.el${CENTOS_VERSION}
+ARG MSBUILD_VERSION=1:16.4+xamarinxplat.2019.11.27.22.07-4.1.nw.el${CENTOS_VERSION}
 
 FROM centos:$CENTOS_VERSION
 ARG CENTOS_VERSION
 ARG MONO_VERSION
 ARG GTKSHARP_VERSION
+ARG MSBUILD_VERSION
 
 LABEL version=${MONO_VERSION}
 LABEL description="CentOS-${CENTOS_VERSION} based mono base image"
@@ -34,7 +36,10 @@ RUN yum -y --enablerepo=netway-mono install \
     mono-devel-${MONO_VERSION} \
     mono-web-devel-${MONO_VERSION} \
     gtk-sharp2-${GTKSHARP_VERSION} \
-    gtk-sharp2-devel-${GTKSHARP_VERSION}
+    gtk-sharp2-devel-${GTKSHARP_VERSION} \
+    msbuild-${MSBUILD_VERSION} \
+    msbuild-sdkresolver-${MSBUILD_VERSION} \
+    msbuild-libhostfxr-3.0.0.2019.04.16.02.13-1.1.nw.el7
 RUN yum --enablerepo=\* clean all
 
 CMD ["/bin/bash"]
