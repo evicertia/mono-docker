@@ -104,6 +104,22 @@ get_config_files()
     fi
 }
 
+set_dnsserver()
+{
+    local dnsserver=$1
+
+    if [ -n "${dnsserver}" ]
+    then \
+        echo "Setting DNS server to ${dnsserver}"
+        if ! [[ ${dnsserver} =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            dnsserver=$(getent hosts "${dnsserver}" | awk '{ print $1 }')
+            [ -z "${dnsserver}" ] && print_error "Unable to resolve DNS server address." && exit 254
+        fi
+        sed -ci'' -e '/^nameserver .*/d' /etc/resolv.conf
+        echo "nameserver ${dnsserver}" >> /etc/resolv.conf
+    fi
+}
+
 which xmlstarlet || die 255 "Missing xmlstartlet binary."
 
 # vim: ai ts=4 sw=4 noet sts=4 ft=sh
