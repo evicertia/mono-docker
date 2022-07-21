@@ -1,7 +1,7 @@
 NAME   := evicertia/mono
 TAG    := $$(git log -1 --pretty=%h)
 IMG    := ${NAME}:${TAG}
-LATEST := ${NAME}:latest
+LATEST := ${NAME}:testing
 
 build:
 	@docker build -t ${IMG} .

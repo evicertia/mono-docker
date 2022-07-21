@@ -1,7 +1,7 @@
 ARG CENTOS_VERSION=7
-ARG MONO_VERSION=5.18.1.28-16.1.nw.el${CENTOS_VERSION}
-ARG GTKSHARP_VERSION=2.12.26-2.22.nw.el${CENTOS_VERSION}
-ARG MSBUILD_VERSION=16.4+xamarinxplat.2019.11.27.22.07-4.1.nw.el${CENTOS_VERSION}
+ARG MONO_VERSION=6.12.0.182-4.2.nw.el${CENTOS_VERSION}
+ARG GTKSHARP_VERSION=2.12.45-1.15.nw.el${CENTOS_VERSION}
+ARG MSBUILD_VERSION=1:16.10.1+xamarinxplat.2021.05.26.14.00-7.1.nw.el${CENTOS_VERSION}
 
 FROM centos:$CENTOS_VERSION
 ARG CENTOS_VERSION
@@ -39,7 +39,7 @@ RUN yum -y --enablerepo=netway-mono install \
     gtk-sharp2-devel-${GTKSHARP_VERSION} \
     msbuild-${MSBUILD_VERSION} \
     msbuild-sdkresolver-${MSBUILD_VERSION} \
-    msbuild-libhostfxr-3.0.0.2019.04.16.02.13-1.1.nw.el7
+    msbuild-libhostfxr
 RUN yum --enablerepo=\* clean all
 
 CMD ["/bin/bash"]
