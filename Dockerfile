@@ -1,7 +1,7 @@
 ARG CENTOS_VERSION=7
 ARG MONO_VERSION=6.12.0.182-4.2.nw.el${CENTOS_VERSION}
 ARG GTKSHARP_VERSION=2.12.45-1.15.nw.el${CENTOS_VERSION}
-ARG MSBUILD_VERSION=1:16.10.1+xamarinxplat.2021.05.26.14.00-7.1.nw.el${CENTOS_VERSION}
+ARG MSBUILD_VERSION=16.10.1+xamarinxplat.2021.05.26.14.00-7.1.nw.el${CENTOS_VERSION}
 
 FROM centos:$CENTOS_VERSION
 ARG CENTOS_VERSION
@@ -28,6 +28,7 @@ RUN yum -y --enablerepo=netway-mono install \
     mono-web-${MONO_VERSION} \
     mono-data-${MONO_VERSION} \
     mono-data-sqlite-${MONO_VERSION} \
+    mono-data-oracle-${MONO_VERSION} \
     mono-extras-${MONO_VERSION} \
     mono-wcf-${MONO_VERSION} \
     mono-winforms-${MONO_VERSION} \
