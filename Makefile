@@ -2,9 +2,10 @@ NAME   := evicertia/mono
 TAG    := $$(git log -1 --pretty=%h)
 IMG    := ${NAME}:${TAG}
 LATEST := ${NAME}:testing
+BOPTS  ?=
 
 build:
-	@docker build -t ${IMG} .
+	@docker build ${BOPTS} -t ${IMG} .
 	@docker tag ${IMG} ${LATEST}
 
 push:
