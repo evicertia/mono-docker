@@ -36,8 +36,22 @@ load_mono_certs_from()
 
     if [ -f "${certsdir}/certs.pem" ]
     then \
-        echo "Syncing mono certificate store using certs.pem bundle.."
+        echo -e "\e[33mWARNING: This functionality is maintained for retro-compatibility, but certificates used in this step is going to be overwritten! Try to use anchors directory.\e[0m"
         cert-sync "${certsdir}/certs.pem"
+    fi
+
+    if find "${certsdir}/anchors" -mindepth 1 -name "*.crt" -quit;
+    then \
+        echo "Copying Trust Anchor certificates from ${certsdir}/anchors..." >&2
+        for file in $(find "${certsdir}/anchors" -mindepth 1 -name "*.crt")
+        do \
+            echo "Copying certificate $file to /etc/pki/ca-trust/source/anchors/" >&2
+            cp "$file" /etc/pki/ca-trust/source/anchors/
+        done
+        echo "Updating CA-Trust..."
+        update-ca-trust
+        echo "Syncing certs..."
+        cert-sync <(cat /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem; echo; cat /etc/pki/ca-trust/extracted/pem/email-ca-bundle.pem)
     fi
 
     if find "${certsdir}/roots" -mindepth 1 -name "*.crt" -quit;
