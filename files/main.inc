@@ -36,7 +36,7 @@ load_mono_certs_from()
 
     if [ -f "${certsdir}/certs.pem" ]
     then \
-        echo -e "\e[33mWARNING: This functionality is maintained for retro-compatibility, but certificates synchronized in this step could be overwritten if anchors directory exists! Try to use anchors directory.\e[0m"
+        echo -e "\e[33mWARNING: This functionality is maintained for retro-compatibility, but certificates synchronized in this step could be overwritten if anchors directory exists! Try to use anchors directory instead.\e[0m"
         cert-sync "${certsdir}/certs.pem"
     fi
 
