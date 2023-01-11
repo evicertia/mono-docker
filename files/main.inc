@@ -10,6 +10,10 @@ set_setting() {
     local value=$2
     local exists=$(xmlstarlet sel -t -v "count(/appSettings/add[@key='${key}'])" "${APPSETTINGS}")
 
+    if [ -z "$2" ]; then
+        return 0
+    fi
+
     if [ $exists -eq 0 ]; then
         xmlstarlet ed -L -s  "/appSettings" \
             -t elem -n add -v "" -i "/appSettings/add[last()]" \
