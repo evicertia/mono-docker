@@ -22,7 +22,7 @@ ADD files/netway-mono.repo /etc/yum.repos.d/
 RUN yum -y install openssl ca-certificates redhat-lsb-core epel-release yum-priorities
 RUN echo ${MONO_VERSION} > /MONO_VERSION
 RUN yum -y --enablerepo=netway-mono install \
-    git dos2unix rpm-build \
+    git dos2unix rpm-build parallel \
     selinux-policy-\* checkpolicy \
     mono-core-${MONO_VERSION} \
     mono-web-${MONO_VERSION} \
