@@ -97,9 +97,15 @@ get_config_files()
         echo "loading configuration files from config volume" >&2
         for file in $(find "$configdir" -mindepth 1 -name "*.config" -execdir echo {} ';')
         do \
-            echo "Importing $file"
-            [ -f "$basedir/$file" ] && rm -f "$basedir/$file"
-            ln -s "$configdir/$file" "$basedir/$file"
+			if [ "${_CLONE_CONFIG_FILES:-}" == "1" ]
+			then \
+				echo "Cloning config file ${configdir}/${file} => ${basedir}/${file}.."
+				cat "$configdir/$file" > "$basedir/$file"
+			else
+				echo "Linking config file  ${configdir}/${file} => ${basedir}/${file}.."
+				[ -f "$basedir/$file" ] && rm -f "$basedir/$file"
+				ln -s "$configdir/$file" "$basedir/$file"
+			fi
         done
     fi
 }
