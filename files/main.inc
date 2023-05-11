@@ -100,7 +100,7 @@ get_config_files()
 			if [ "${_CLONE_CONFIG_FILES:-}" == "1" ]
 			then \
 				echo "Cloning config file ${configdir}/${file} => ${basedir}/${file}.."
-				cat "$configdir/$file" > "$basedir/$file"
+				cat "$configdir/$file" >| "$basedir/$file"
 			else
 				echo "Linking config file  ${configdir}/${file} => ${basedir}/${file}.."
 				[ -f "$basedir/$file" ] && rm -f "$basedir/$file"
