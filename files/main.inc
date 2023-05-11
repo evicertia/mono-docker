@@ -115,9 +115,9 @@ get_config_files()
         echo "loading configuration files from config volume" >&2
         for file in $(find "$configdir" -mindepth 1 -name "*.config" -execdir echo {} ';')
         do \
-            echo "Importing $file"
+            echo "Copying $file"
             [ -f "$basedir/$file" ] && rm -f "$basedir/$file"
-            ln -s "$configdir/$file" "$basedir/$file"
+            cp "$configdir/$file" "$basedir/$file"
         done
     fi
 }
