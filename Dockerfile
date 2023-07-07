@@ -40,7 +40,8 @@ RUN yum -y --enablerepo=netway-mono install \
     gtk-sharp2-devel-${GTKSHARP_VERSION} \
     msbuild-${MSBUILD_VERSION} \
     msbuild-sdkresolver-${MSBUILD_VERSION} \
-    msbuild-libhostfxr
+    msbuild-libhostfxr \
+    xmlstarlet
 RUN yum --enablerepo=\* clean all
 
 CMD ["/bin/bash"]
