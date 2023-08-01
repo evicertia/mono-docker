@@ -25,11 +25,40 @@ set_setting() {
     fi
 }
 
+set_setting_ifvalue() {
+    local key=$1
+    local value=$2
+
+    if [ ! -z "$2" ]; then
+        set_setting $1 $2
+    fi
+}
+
 set_connstr() {
     local name=$1
     local value=$2
 
     xmlstarlet ed -L -u "/connectionStrings/add[@name='${name}']/@connectionString" -v "${value}" "${CONNSTRINGS}"
+}
+
+upsert_connstr() {
+    local provider=$1
+    local name=$2
+    local value=$3
+    local exists=$(xmlstarlet sel -t -v "count(/connectionStrings/add[@name='${name}'])" "${CONNSTRINGS}")
+
+    if [ $exists -eq 0 ]; then
+        xmlstarlet ed -L -s "/connectionStrings" \
+            -t elem -n add -v "" -i "/connectionStrings/add[last()]" \
+            -t attr -n name -v "$name" -i "/connectionStrings/add[last()]" \
+            -t attr -n connectionString -v "$value" -i "/connectionStrings/add[last()]" \
+            -t attr -n providerName -v "$provider" \
+            "${CONNSTRINGS}"
+    else
+        xmlstarlet ed -L \
+        -u "/connectionStrings/add[@name='${name}']/@connectionString" -v "${value}" \
+        -u "/connectionStrings/add[@name='${name}']/@providerName" -v "${provider}" "${CONNSTRINGS}"
+    fi
 }
 
 load_mono_certs_from()
