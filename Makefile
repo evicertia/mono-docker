@@ -6,10 +6,13 @@ BOPTS  ?=
 
 build:
 	@docker build ${BOPTS} --platform=linux/${ARCH} -t "${NAME}:${CID}" .
-	@docker tag ${NAME}:${CID} ${TAG}
+	@docker tag ${NAME}:${CID} ${NAME}:${TAG}
+
+tag:
+	@docker tag ${NAME}:${CID} ${NAME}:${TAG}
 
 push:
-	@docker push ${NAME}
+	@docker push ${NAME}:${TAG}
 
 login:
 	@docker log -u ${DOCKER_USER} -p ${DOCKER_PASS}
