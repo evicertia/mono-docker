@@ -19,6 +19,7 @@ WORKDIR /
 # Install base stuff..
 
 ADD files/netway-mono.repo /etc/yum.repos.d/
+RUN sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
 RUN yum -y install openssl ca-certificates redhat-lsb-core epel-release yum-priorities
 RUN echo ${MONO_VERSION} > /MONO_VERSION
 RUN yum -y --enablerepo=netway-mono install \
