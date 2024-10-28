@@ -1,5 +1,13 @@
+ARG OS_VERSION=7
 ARG MONO_DOCKER_TAG=6.12
-FROM evicertia/mono:${MONO_DOCKER_TAG}
+FROM evicertia/mono:${MONO_DOCKER_TAG}-el${OS_VERSION}
+
+ARG COMMIT=0
+
+LABEL version="${MONO_DOCKER_TAG}.${COMMIT}"
+LABEL description="CentOS/Alma-${OS_VERSION} based mono image for running services"
+LABEL maintainer="pablo@evicertia.com"
+LABEL vendor="evicertia"
 
 WORKDIR /
 
