@@ -5,7 +5,7 @@ TAG    := testing
 BOPTS  ?=
 
 build:
-	@docker build ${BOPTS} --platform=linux/${ARCH} -t "${NAME}:${CID}" .
+	@docker build ${BOPTS} --platform=linux/${ARCH} --build-arg "CID=${CID}" -t "${NAME}:${CID}" .
 	@docker tag ${NAME}:${CID} ${NAME}:${TAG}
 
 tag:
