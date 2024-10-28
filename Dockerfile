@@ -1,4 +1,4 @@
-ARG OS_VERSION=7
+ARG OS_VERSION=9
 ARG MONO_DOCKER_TAG=6.12
 FROM evicertia/mono:${MONO_DOCKER_TAG}-el${OS_VERSION}
 
@@ -13,9 +13,9 @@ WORKDIR /
 
 ENV DOCKERIZE_VERSION v0.6.1
 
-RUN sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
+#RUN sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
 
-RUN yum -y install mono-basic \
+RUN microdnf -y install \
     libcurl \
     libcurl-devel \
     curl \
