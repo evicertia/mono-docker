@@ -1,14 +1,18 @@
 NAME   := evicertia/mono-service
-TAG    := $$(git log -1 --pretty=%h)
-IMG    := ${NAME}:${TAG}
-LATEST := ${NAME}:testing
+ARCH   := amd64
+CID    := $$(git log -1 --pretty=%h)
+TAG    := testing
+BOPTS  ?=
 
 build:
-	@docker build -t ${IMG} .
-	@docker tag ${IMG} ${LATEST}
+	@docker build ${BOPTS} --platform=linux/${ARCH} -t "${NAME}:${CID}" .
+	@docker tag "${NAME}:${CID}" "${NAME}:${TAG}"
+
+tag:
+	@docker tag "${NAME}:${CID}" "${NAME}:${TAG}"
 
 push:
-	@docker push ${NAME}
+	@docker push ${NAME}:${TAG}
 
 login:
 	@docker log -u ${DOCKER_USER} -p ${DOCKER_PASS}

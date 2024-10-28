@@ -5,6 +5,8 @@ WORKDIR /
 
 ENV DOCKERIZE_VERSION v0.6.1
 
+RUN sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
+
 RUN yum -y install mono-basic \
     libcurl \
     libcurl-devel \
