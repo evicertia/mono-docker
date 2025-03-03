@@ -21,10 +21,12 @@ WORKDIR /
 # Install base stuff..
 
 ADD files/evirpms.repo /etc/yum.repos.d/
+ADD files/docker-ce.repo /etc/yum.repos.d/
+
 #RUN sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
 RUN microdnf -y install openssl ca-certificates epel-release
 RUN echo ${MONO_VERSION} > /MONO_VERSION
-RUN microdnf -y --enablerepo=evirpms-extras install \
+RUN microdnf -y --enablerepo=evirpms-extras --enablerepo=docker-ce-stable install \
     git dos2unix rpm-build parallel lsb-release procps \
     selinux-policy-\* checkpolicy \
     mono-core-${MONO_VERSION} \
@@ -44,7 +46,10 @@ RUN microdnf -y --enablerepo=evirpms-extras install \
     msbuild-${MSBUILD_VERSION} \
     msbuild-sdkresolver-${MSBUILD_VERSION} \
     msbuild-libhostfxr \
-    xmlstarlet
+    xmlstarlet \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io
 RUN microdnf --enablerepo=\* clean all
 
 CMD ["/bin/bash"]
