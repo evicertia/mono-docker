@@ -1,10 +1,11 @@
 ARG OS_VERSION=9
-ARG MONO_VERSION=6.12.0.182-17.1.nw.el${OS_VERSION}
-ARG GTKSHARP_VERSION=2.12.45-9.1.nw.el${OS_VERSION}
-ARG MSBUILD_VERSION=16.10.1+xamarinxplat.2021.05.26.14.00-7.8.nw.el${OS_VERSION}
+ARG MONO_VERSION=6.12.0.182-18.2.nw.el${OS_VERSION}
+ARG GTKSHARP_VERSION=2.12.45-10.1.nw.el${OS_VERSION}
+ARG MSBUILD_VERSION=16.10.1+xamarinxplat.2021.05.26.14.00-8.1.nw.el${OS_VERSION}
 ARG CID=0
 
-FROM almalinux:$OS_VERSION-minimal
+FROM --platform=$BUILDPLATFORM almalinux:$OS_VERSION-minimal
+ARG TARGETARCH
 ARG OS_VERSION
 ARG MONO_VERSION
 ARG GTKSHARP_VERSION
@@ -21,10 +22,11 @@ WORKDIR /
 # Install base stuff..
 
 ADD files/evirpms.repo /etc/yum.repos.d/
+ADD files/netway-mono-arm64.repo /etc/yum.repos.d/
 #RUN sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
 RUN microdnf -y install openssl ca-certificates epel-release
 RUN echo ${MONO_VERSION} > /MONO_VERSION
-RUN microdnf -y --enablerepo=evirpms-extras install \
+RUN microdnf -y --enablerepo=mono-${TARGETARCH} install \
     git dos2unix rpm-build parallel lsb-release procps \
     selinux-policy-\* checkpolicy \
     mono-core-${MONO_VERSION} \

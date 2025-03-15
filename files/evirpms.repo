@@ -1,7 +1,7 @@
-[evirpms-extras]
+[mono-amd64]
 sslverify=1
 name=EVICERTIA (extras) RPMs Repository ($releasever - $basearch)
-enabled=1
+enabled=0
 gpgkey=https://artifacts.evicertia.net/packages/evirpms/EVI-GPG-KEY
 baseurl=https://artifacts.evicertia.net/packages/evirpms-extras/el$releasever/$basearch
 gpgcheck=1
