@@ -21,7 +21,8 @@ WORKDIR /
 
 # Install base stuff..
 
-ADD files/evirpms.repo /etc/yum.repos.d/
+#ADD files/evirpms.repo /etc/yum.repos.d/
+ADD files/netway-mono-amd64.repo /etc/yum.repos.d/
 ADD files/netway-mono-arm64.repo /etc/yum.repos.d/
 #RUN sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
 RUN microdnf -y install openssl ca-certificates epel-release
