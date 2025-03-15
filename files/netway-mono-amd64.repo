@@ -1,0 +1,6 @@
+[netway-mono]
+name=NetWay (mono) RPMs Repository ($releasever - $basearch)
+gpgkey=https://artifacts.evicertia.net/packages/netway/NW-GPG-KEY
+enabled=0
+baseurl=https://artifacts.evicertia.net/packages/netway-mono/el$releasever/$basearch
+gpgcheck=1
