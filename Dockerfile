@@ -1,29 +1,32 @@
-ARG OS_VERSION=9
-ARG MONO_DOCKER_TAG=6.12
-FROM evicertia/mono:${MONO_DOCKER_TAG}-el${OS_VERSION}
+ARG MONO_DOCKER_TAG=testing
 
+FROM --platform=$BUILDPLATFORM evicertia/mono:${MONO_DOCKER_TAG}
+
+ARG MONO_DOCKER_TAG=testing
+ARG TARGETARCH
 ARG COMMIT=0
 
 LABEL version="${MONO_DOCKER_TAG}.${COMMIT}"
-LABEL description="CentOS/Alma-${OS_VERSION} based mono image for running services"
+LABEL description="AlmaLinux based mono image for running services"
 LABEL maintainer="pablo@evicertia.com"
 LABEL vendor="evicertia"
 
 WORKDIR /
 
-ENV DOCKERIZE_VERSION v0.6.1
+ENV DOCKERIZE_VERSION=v0.9.2
 
-#RUN sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
-
-RUN microdnf -y install \
-    libcurl \
+RUN microdnf -y install dnf && \
+    dnf --allowerasing -y install \
+    libcurl-full \
     libcurl-devel \
-    curl \
+    curl-full \
     xmlstarlet
+RUN dnf clean all && dnf remove -y --setopt=protected_packages='' dnf python3-dnf
+RUN microdnf clean all && rm -rf /var/cache/yum/* && rm -rf /var/cache/dnf/*
 
-RUN curl -LO https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+RUN curl -LO https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-${TARGETARCH}-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-${TARGETARCH}-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-${TARGETARCH}-$DOCKERIZE_VERSION.tar.gz
 
 VOLUME /conf
 VOLUME /data

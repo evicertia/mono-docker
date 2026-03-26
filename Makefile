@@ -1,17 +1,17 @@
 NAME   := evicertia/mono-service
-ARCH   := amd64
+PLAT   := linux/amd64,linux/arm64
 CID    := $$(git log -1 --pretty=%h)
 TAG    := testing
 BOPTS  ?=
 
 build:
-	@docker build ${BOPTS} --platform=linux/${ARCH} --build-arg "COMMIT=${CID}" -t "${NAME}:${CID}" .
+	@docker buildx build ${BOPTS} --platform=${PLAT} --build-arg "CID=${CID}" -t "${NAME}:${CID}" .
 	@docker tag "${NAME}:${CID}" "${NAME}:${TAG}"
 
-tag:
+tag: build
 	@docker tag "${NAME}:${CID}" "${NAME}:${TAG}"
 
-push:
+push: tag
 	@docker push ${NAME}:${TAG}
 
 login:
