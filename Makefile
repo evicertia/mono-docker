@@ -8,10 +8,10 @@ build:
 	@docker buildx build ${BOPTS} --platform=${PLAT} --build-arg "CID=${CID}" -t "${NAME}:${CID}" .
 	@docker tag ${NAME}:${CID} ${NAME}:${TAG}
 
-tag:
+tag: build
 	@docker tag ${NAME}:${CID} ${NAME}:${TAG}
 
-push:
+push: tag
 	@docker push ${NAME}:${TAG}
 
 login:

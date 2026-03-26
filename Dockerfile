@@ -1,7 +1,7 @@
 ARG OS_VERSION=9
-ARG MONO_VERSION=6.12.0.182-18.2.nw.el${OS_VERSION}
-ARG GTKSHARP_VERSION=2.12.45-10.1.nw.el${OS_VERSION}
-ARG MSBUILD_VERSION=16.10.1+xamarinxplat.2021.05.26.14.00-8.1.nw.el${OS_VERSION}
+ARG MONO_VERSION=6.12.0.182-18.44.nw.el${OS_VERSION}
+ARG GTKSHARP_VERSION=2.12.45-10.42.nw.el${OS_VERSION}
+ARG MSBUILD_VERSION=16.10.1+xamarinxplat.2021.05.26.14.00-8.41.nw.el${OS_VERSION}
 ARG CID=0
 
 FROM --platform=$BUILDPLATFORM almalinux:$OS_VERSION-minimal
@@ -21,7 +21,7 @@ WORKDIR /
 
 # Install base stuff..
 
-#ADD files/evirpms.repo /etc/yum.repos.d/
+ADD files/evirpms.repo /etc/yum.repos.d/
 ADD files/netway-mono-amd64.repo /etc/yum.repos.d/
 ADD files/netway-mono-arm64.repo /etc/yum.repos.d/
 #RUN sed -i -e '/^mirrorlist/d;/^#baseurl=/{s,^#,,;s,/mirror,/vault,;}' /etc/yum.repos.d/CentOS*.repo
