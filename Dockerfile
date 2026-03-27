@@ -3,7 +3,10 @@ ARG MONO_DOCKER_TAG=testing
 FROM --platform=$BUILDPLATFORM evicertia/mono:${MONO_DOCKER_TAG}
 
 ARG VERSION=unknown
+ARG TARGETPLATFORM
 ARG TARGETARCH
+ARG BUILDPLATFORM
+ARG BUILDARCH
 ARG COMMIT=0
 
 LABEL version="${VERSION}.${COMMIT}"
@@ -12,6 +15,13 @@ LABEL maintainer="pablo@evicertia.com"
 LABEL vendor="evicertia"
 
 WORKDIR /
+
+# Some build tracing / diagnostics..
+RUN set -x; \
+    echo "BUILDPLATFORM=$BUILDPLATFORM BUILDARCH=$BUILDARCH"; \
+    echo "TARGETPLATFORM=$TARGETPLATFORM TARGETARCH=$TARGETARCH"; \
+    uname -m; \
+    rpm --eval '%{_arch}';
 
 ENV DOCKERIZE_VERSION=v0.9.2
 
