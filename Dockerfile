@@ -2,11 +2,11 @@ ARG MONO_DOCKER_TAG=testing
 
 FROM --platform=$BUILDPLATFORM evicertia/mono:${MONO_DOCKER_TAG}
 
-ARG MONO_DOCKER_TAG=testing
+ARG VERSION=unknown
 ARG TARGETARCH
 ARG COMMIT=0
 
-LABEL version="${MONO_DOCKER_TAG}.${COMMIT}"
+LABEL version="${VERSION}.${COMMIT}"
 LABEL description="AlmaLinux based mono image for running services"
 LABEL maintainer="pablo@evicertia.com"
 LABEL vendor="evicertia"

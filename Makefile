@@ -4,8 +4,17 @@ CID    := $$(git log -1 --pretty=%h)
 TAG    := testing
 BOPTS  ?=
 
+VERSION		= $$(docker run --rm "evicertia/mono:$(TAG)" rpm -q mono-core --queryformat "%{version}-%{release}")
+BUILD_EXTRA ?=
+
 build:
-	@docker buildx build ${BOPTS} --platform=${PLAT} --build-arg "CID=${CID}" -t "${NAME}:${CID}" .
+	@docker pull "evicertia/mono:$(TAG)"
+	@docker buildx build ${BOPTS} \
+		--platform=${PLAT} \
+		--build-arg "CID=${CID}" \
+		--build-arg "VERSION=${VERSION}" \
+		${BUILD_EXTRA} \
+		-t "${NAME}:${CID}" .
 	@docker tag "${NAME}:${CID}" "${NAME}:${TAG}"
 
 tag: build
