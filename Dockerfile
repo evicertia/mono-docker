@@ -5,7 +5,10 @@ ARG MSBUILD_VERSION=16.10.1+xamarinxplat.2021.05.26.14.00-8.41.nw.el${OS_VERSION
 ARG CID=0
 
 FROM --platform=$BUILDPLATFORM almalinux:$OS_VERSION-minimal
+ARG TARGETPLATFORM
 ARG TARGETARCH
+ARG BUILDPLATFORM
+ARG BUILDARCH
 ARG OS_VERSION
 ARG MONO_VERSION
 ARG GTKSHARP_VERSION
@@ -18,6 +21,13 @@ LABEL maintainer="pablo@evicertia.com"
 LABEL vendor="evicertia"
 
 WORKDIR /
+
+# Some build tracing / diagnostics..
+RUN set -x; \
+    echo "BUILDPLATFORM=$BUILDPLATFORM BUILDARCH=$BUILDARCH"; \
+    echo "TARGETPLATFORM=$TARGETPLATFORM TARGETARCH=$TARGETARCH"; \
+    uname -m; \
+    rpm --eval '%{_arch}';
 
 # Install base stuff..
 

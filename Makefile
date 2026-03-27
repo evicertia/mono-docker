@@ -2,17 +2,24 @@ NAME   := evicertia/mono
 PLAT   := linux/amd64,linux/arm64
 CID    := $$(git log -1 --pretty=%h)
 TAG    := testing
-BOPTS  ?=
+
+BUILDER ?= --builder cloud-evicertia-mono-builder
+BOPTS   ?=
 
 build:
-	@docker buildx build ${BOPTS} --platform=${PLAT} --build-arg "CID=${CID}" -t "${NAME}:${CID}" .
-	@docker tag ${NAME}:${CID} ${NAME}:${TAG}
+	@docker buildx build ${BOPTS} ${BUILDER} \
+		--platform=${PLAT} \
+		--build-arg "CID=${CID}" \
+		-t "${NAME}:${CID}" \
+		--load .
 
-tag: build
-	@docker tag ${NAME}:${CID} ${NAME}:${TAG}
-
-push: tag
-	@docker push ${NAME}:${TAG}
+push:
+	@docker buildx build ${BOPTS} ${BUILDER} \
+		--platform=${PLAT} \
+		--build-arg "CID=${CID}" \
+		-t "${NAME}:${CID}" \
+		-t "${NAME}:${TAG}" \
+		--push .
 
 login:
 	@docker log -u ${DOCKER_USER} -p ${DOCKER_PASS}
